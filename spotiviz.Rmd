@@ -1,0 +1,96 @@
+---
+title: "SpotiViz"
+author: "Nikhil Rajkumar & Meghana Jaladanki"
+date: "4/20/2021"
+output: html_document
+---
+
+```{r, echo=FALSE}
+library(ggplot2)
+```
+
+## SpotiViz
+
+We intend on using a Spotify dataset to produce effective visualizations that answer a specific set of questions. Our dataset consists of song information and it consists of a bunch of musical attributes along with a track name. We have immense data to locate trends and how music has progressed over time. With attributes ranging from liveness, popularity, danceability, speechiness, energy, etc.
+
+```{r}
+df.spotify <- read.csv("data.csv")
+df.spotify$explicit <- as.factor(df.spotify$explicit)
+df.spotify$duration_ms <- (df.spotify$duration_ms/1000)
+summary(df.spotify)
+```
+
+## Trends
+
+# 1. How does popularity of a song vary over time?
+
+```{r}
+pop.plot <- ggplot(data=df.spotify , aes(x=year, y=popularity)) + 
+    geom_point(color = "#1DB954", size = 1) +
+    ggtitle("Popularity of Music over time") +
+    xlab("Year") + 
+    ylab("Popularity")
+pop.plot
+```
+
+This plot explains how newer songs are more popular among Spotify users. This could be explained by how majority of its users (55%) are within the age range of 18-34 and are more likely exposed to newer music and hence the higher popularity. 
+
+
+# 2. How has energy and danceability of a song varied over time?  -> Remove if needed: No trend observed
+
+```{r}
+dance.plot <- ggplot(data=df.spotify , aes(x=year, y=danceability)) + 
+    geom_point(color = "#1DB954", size = 1) +
+    ggtitle("Danceability of Music over time") +
+    xlab("Year") + 
+    ylab("Danceability")
+dance.plot
+```
+
+
+# 3. How has the popularity of explicit language songs changed over time?
+
+```{r}
+##1DB954
+##00AFBB
+exp.plot <- ggplot(data=df.spotify , aes(x=year, y=explicit)) + 
+    geom_boxplot(color = "#56B4E9", size = 1) +
+    ggtitle("Explicit Music over time") +
+    xlab("Year") + 
+    ylab("Explicit")
+exp.plot
+```
+1 represents if a song containts explicit language while 0 conveys that it does not have explicit language. According to the boxplot above, we notice that most of the songs without explicit langauge were released between the late 1950s and late 1990s. However, most of the songs with explicit language were released between the Late 1980s and present day. 
+This could potentially be explained by how society has become more open-minded and progressive over time by being more acceptive of artists expressing themselves in music and how they really feel (Hence, the explicit language). 
+
+# 4. How has the duration of a song changed over time?   -> Remove maybe: no significant trend
+
+```{r}
+dur.plot <- ggplot(data=df.spotify , aes(x=year, y=duration_ms)) + 
+    geom_point(color = "#1DB954", size = 1) +
+    ggtitle("Duration of Music over time") +
+    xlab("Year") + 
+    ylab("Duration")
+dur.plot
+```
+
+
+
+# 5. Number of features over time
+```{r}
+#find number of features per song, split vector into list for each row. create a new column holding length of new list (aka artist per song) for each row. 
+count <- lapply(strsplit(df.spotify$artists, ",")[[1]], "[")
+
+count <- lapply(df.spotify$artists, FUN=strsplit,  x=df.spotify$artists, split=",")[[1]]
+
+#v <- strsplit(baby.df$artists[52], ",")[[1]]
+
+baby.df <- df.spotify[1:70,]
+summary(baby.df)
+cunt <- lapply(baby.df$artists, FUN=strsplit,  x=baby.df$artists, split=",")[[1]]
+```
+
+
+
+
+
