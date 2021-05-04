@@ -12,8 +12,6 @@ library(ggplot2)
 ## SpotiViz
 
 We intend on using a Spotify dataset to produce effective visualizations that answer a specific set of questions. Our dataset consists of song information and it consists of a bunch of musical attributes along with a track name. We have immense data to locate trends and how music has progressed over time. With attributes ranging from liveness, popularity, danceability, speechiness, energy, etc.
-After downloading the dataset from Kaggle we cleaned it up, by removing any null values and columns that we found irrelevant to our research questions. 
-In the following analysisw we will be making plots to answer our questions and explain why there may or may not be any trends show. Since we are mainly focusing on creating effective visualizations in hopes of getting answers, we are using libraries such as ggplot2 and plotly. 
 
 ```{r}
 df.spotify <- read.csv("data.csv")
@@ -33,7 +31,11 @@ pop.plot <- ggplot(data=df.spotify , aes(x=year, y=popularity)) +
     xlab("Year") + 
     ylab("Popularity")
 pop.plot
+
+
+#Time Series -> 
 ```
+
 
 This plot explains how newer songs are more popular among Spotify users. This could be explained by how majority of its users (55%) are within the age range of 18-34 and are more likely exposed to newer music and hence the higher popularity. 
 
@@ -89,22 +91,42 @@ count <- lapply(df.spotify$artists, FUN=strsplit,  x=df.spotify$artists, split="
 
 baby.df <- df.spotify[1:70,]
 summary(baby.df)
-cunt <- lapply(baby.df$artists, FUN=strsplit,  x=baby.df$artists, split=",")[[1]
+cnt <- lapply(baby.df$artists, FUN=strsplit,  x=baby.df$artists, split=",")[[1]]
+
+v <- list()
+
+for (i in 1:length(df.spotify$artists)){
+    v[i] <- length(strsplit(df.spotify$artists[i], ",")[[1]])
+}
 ```
 
-# 6. Valence of Songs Over Time 
+
+# 6. Liveliness v Popularity
 ```{r}
-v.plot<- ggplot(df.spotify , aes(x=year, y=valence)) + 
-    geom_point(color='#56B4E9', size = 1) +
-    geom_smooth()+
-    ggtitle("Valence of Songs over Time") +
-    xlab("Year") + 
-    ylab("Valence")
-    
-v.plot
+liv.plot <- ggplot(data=df.spotify , aes(x=liveness, y=popularity)) + 
+    geom_point(color = "#1DB954", size = 1) +
+    ggtitle("Liveness v Popularity") +
+    xlab("Liveness") + 
+    ylab("Popularity") +
+    geom_smooth(method=lm)
+liv.plot
 ```
 
+> A good number of popular songs are less livlier. 
+
+# 7. Danceability v Popularity 
+```{r}
+dnce.plot <- ggplot(data=df.spotify , aes(x=danceability, y=popularity)) + 
+    geom_point(color = "#1DB954", size = 1) +
+    ggtitle("Danceability v Popularity") +
+    xlab("Danceability") + 
+    ylab("Popularity") + 
+    geom_smooth(method=lm)
+dnce.plot
+```
+> There is a small trend showing us that more danceable tracks are more popular.
 
 
 
-
+## Links to data sources
+## Links to extra resources
