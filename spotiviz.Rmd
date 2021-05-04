@@ -82,22 +82,20 @@ dur.plot
 
 # 5. Number of features over time
 ```{r}
-#find number of features per song, split vector into list for each row. create a new column holding length of new list (aka artist per song) for each row. 
-count <- lapply(strsplit(df.spotify$artists, ",")[[1]], "[")
-
-count <- lapply(df.spotify$artists, FUN=strsplit,  x=df.spotify$artists, split=",")[[1]]
-
-#v <- strsplit(baby.df$artists[52], ",")[[1]]
-
-baby.df <- df.spotify[1:70,]
-summary(baby.df)
-cnt <- lapply(baby.df$artists, FUN=strsplit,  x=baby.df$artists, split=",")[[1]]
-
 v <- list()
 
 for (i in 1:length(df.spotify$artists)){
     v[i] <- length(strsplit(df.spotify$artists[i], ",")[[1]])
 }
+
+df.spotify$art <- v
+
+feat.plot <- ggplot(data=df.spotify , aes(x=year, y=as.numeric(art))) + 
+    geom_point(color = "#1DB954", size = 1) +
+    ggtitle("Number of Features over time") +
+    xlab("Year") + 
+    ylab("Number of Features")
+feat.plot
 ```
 
 
@@ -129,4 +127,30 @@ dnce.plot
 
 
 ## Links to data sources
+
+> https://www.kaggle.com/yamaerenay/spotify-dataset-19212020-160k-tracks 
+
 ## Links to extra resources
+
+> https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf
+
+
+
+## TIME SERIES STUFF -> Remove if not working
+
+```{r}
+spotify.ts1 <- ts(data = df.spotify, start = c(1921), frequency = 1)
+```
+
+```{r}
+d.ts <- ts(data=df.spotify$duration_ms, frequency =1)
+plot.ts(d.ts)
+```
+
+```{r}
+p.ts <- ts(data=df.spotify$popularity, frequency =12)
+plot.ts(p.ts)
+```
+
+
+
