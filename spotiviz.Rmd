@@ -40,7 +40,7 @@ pop.plot
 This plot explains how newer songs are more popular among Spotify users. This could be explained by how majority of its users (55%) are within the age range of 18-34 and are more likely exposed to newer music and hence the higher popularity. 
 
 
-# 2. How has energy and danceability of a song varied over time?  -> Remove if needed: No trend observed
+# 2. How has danceability of a song varied over time?  
 
 ```{r}
 dance.plot <- ggplot(data=df.spotify , aes(x=year, y=danceability)) + 
@@ -50,7 +50,7 @@ dance.plot <- ggplot(data=df.spotify , aes(x=year, y=danceability)) +
     ylab("Danceability")
 dance.plot
 ```
-
+There does not seem to be any variation of the danceability of songs over time. 
 
 # 3. How has the popularity of explicit language songs changed over time?
 
@@ -64,10 +64,10 @@ exp.plot <- ggplot(data=df.spotify , aes(x=year, y=explicit)) +
     ylab("Explicit")
 exp.plot
 ```
-1 represents if a song containts explicit language while 0 conveys that it does not have explicit language. According to the boxplot above, we notice that most of the songs without explicit langauge were released between the late 1950s and late 1990s. However, most of the songs with explicit language were released between the Late 1980s and present day. 
-This could potentially be explained by how society has become more open-minded and progressive over time by being more acceptive of artists expressing themselves in music and how they really feel (Hence, the explicit language). 
+1 represents if a song contains explicit language while 0 conveys that it does not have explicit language. According to the boxplot above, we notice that most of the songs without explicit langauge were released between the late 1950s and late 1990s. However, most of the songs with explicit language were released between the Late 1980s and present day. 
+This could potentially be explained by how society has become more open-minded and progressive over time by being more accepting of artists expressing themselves in music and how they really feel (Hence, the explicit language). 
 
-# 4. How has the duration of a song changed over time?   -> Remove maybe: no significant trend
+# 4. How has the duration of a song changed over time?   
 
 ```{r}
 dur.plot <- ggplot(data=df.spotify , aes(x=year, y=duration_ms)) + 
@@ -77,7 +77,7 @@ dur.plot <- ggplot(data=df.spotify , aes(x=year, y=duration_ms)) +
     ylab("Duration")
 dur.plot
 ```
-
+There does not seem to be any significant change in trend for the duration of  music over time based on the visual. 
 
 
 # 5. Number of features over time
@@ -110,7 +110,7 @@ liv.plot <- ggplot(data=df.spotify , aes(x=liveness, y=popularity)) +
 liv.plot
 ```
 
-> A good number of popular songs are less livlier. 
+ The graph depicts a negative relationship between popularity and liveliness of a good amount of songs, meaning that as the liveliness increases there is also a chance that popularity may also decrease.
 
 # 7. Danceability v Popularity 
 ```{r}
@@ -122,35 +122,36 @@ dnce.plot <- ggplot(data=df.spotify , aes(x=danceability, y=popularity)) +
     geom_smooth(method=lm)
 dnce.plot
 ```
-> There is a small trend showing us that more danceable tracks are more popular.
+The visual shows a small trend of how more danceable tracks are more popular.
+
+```{r}
+DE.plot <- ggplot(data=df.spotify , aes(x=danceability, y=energy)) + 
+    geom_point(color = "#1DB954", size = 1) +
+    ggtitle("Danceability v Energy") +
+    xlab("Danceability") + 
+    ylab("Energy") + 
+    geom_smooth(method=lm)
+DE.plot
+```
+We can visualize that as the danceability of a song increases, so does the energy. 
+
+
+Conclusion: 
+Given the visuals we have created for this analysis, we can determine that the newer a song, the more popular it is among Spotify users. Furthermore, that non-explicit language songs were released in the late 1950’s and late 1990’s, whereas the explicit language songs were released in the late 1980’s and present day. Other trends observed is that as the liveliness increases there is also a chance that popularity may also decrease and that more danceable tracks are more popular. Lastly, we were able to visualize that with increasing energy there is also increasing danceability with the songs from this dataset. 
+Not all of our graphs showed trends. We did not observe any trends for the danceability and duration of a song over time, and neither for the number of features over time. 
+
+Importance & Future Scope: 
+The importance of this analysis shows that there are certain factors which may have an important effect, such as increasing the popularity of a song. Artists can account for these factors where producing and releasing a song if they want it to be more successful. 
+This dataset has a great scope for the future because it can be analyzed further to help give artists important statistics to increase how successful their releases will be based on elements of their songs. 
 
 
 
 ## Links to data sources
 
-> https://www.kaggle.com/yamaerenay/spotify-dataset-19212020-160k-tracks 
+ https://www.kaggle.com/yamaerenay/spotify-dataset-19212020-160k-tracks 
 
 ## Links to extra resources
 
-> https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf
-
-
-
-## TIME SERIES STUFF -> Remove if not working
-
-```{r}
-spotify.ts1 <- ts(data = df.spotify, start = c(1921), frequency = 1)
-```
-
-```{r}
-d.ts <- ts(data=df.spotify$duration_ms, frequency =1)
-plot.ts(d.ts)
-```
-
-```{r}
-p.ts <- ts(data=df.spotify$popularity, frequency =12)
-plot.ts(p.ts)
-```
-
+ https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf
 
 
