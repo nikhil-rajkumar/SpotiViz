@@ -12,6 +12,8 @@ library(ggplot2)
 ## SpotiViz
 
 We intend on using a Spotify dataset to produce effective visualizations that answer a specific set of questions. Our dataset consists of song information and it consists of a bunch of musical attributes along with a track name. We have immense data to locate trends and how music has progressed over time. With attributes ranging from liveness, popularity, danceability, speechiness, energy, etc.
+After downloading the dataset from Kaggle we cleaned it up, by removing any null values and columns that we found irrelevant to our research questions. 
+In the following analysisw we will be making plots to answer our questions and explain why there may or may not be any trends show. Since we are mainly focusing on creating effective visualizations in hopes of getting answers, we are using libraries such as ggplot2 and plotly. 
 
 ```{r}
 df.spotify <- read.csv("data.csv")
@@ -87,7 +89,19 @@ count <- lapply(df.spotify$artists, FUN=strsplit,  x=df.spotify$artists, split="
 
 baby.df <- df.spotify[1:70,]
 summary(baby.df)
-cunt <- lapply(baby.df$artists, FUN=strsplit,  x=baby.df$artists, split=",")[[1]]
+cunt <- lapply(baby.df$artists, FUN=strsplit,  x=baby.df$artists, split=",")[[1]
+```
+
+# 6. Valence of Songs Over Time 
+```{r}
+v.plot<- ggplot(df.spotify , aes(x=year, y=valence)) + 
+    geom_point(color='#56B4E9', size = 1) +
+    geom_smooth()+
+    ggtitle("Valence of Songs over Time") +
+    xlab("Year") + 
+    ylab("Valence")
+    
+v.plot
 ```
 
 
